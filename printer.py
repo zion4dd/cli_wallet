@@ -16,7 +16,7 @@ def serializer(id, entry: Entry) -> str:
 
 
 def printer(ls: list) -> None:
-    "Выводит записи из листа через сериализатор"
+    "Выводит записи из списка через сериализатор"
 
     for i, e in enumerate(ls):
         print(serializer(i, e))

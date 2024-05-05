@@ -9,7 +9,7 @@ def menu_1() -> None:
     print_balance(B)
 
     # Вариант с выбором вывода:
-    # i = input(menu.str_1)
+    # i = input(menu.s1)
     # match i:
     #     case "1":
     #         print("Баланс:", B.get_balance())
@@ -26,7 +26,7 @@ def menu_2():
 
 
 def menu_3():
-    i = input(menu.str_2)
+    i = input(menu.s2)
     match i:
         case "1":
             printer(B.get_all())
@@ -40,7 +40,7 @@ def menu_3():
 
 
 def menu_4():
-    i = input(menu.str_4)
+    i = input(menu.s4)
     match i:
         case "1":
             cat = in_cat()
@@ -64,7 +64,7 @@ def menu_4():
 
 def mainmenu():
     while True:
-        i = input(menu.str_main)
+        i = input(menu.main)
         match i:
             case "1":
                 menu_1()
@@ -83,9 +83,8 @@ def mainmenu():
 if __name__ == "__main__":
     B: Book = load_data()
     mainmenu()
-    # B.sort_book()
     save_data(B)
 
 
-# B.add_entry(Entry("2024-05-02", True, 1000, "1st"))
-# B.add_entry(Entry("2024-05-02", False, 500, "2nd"))
+# B.add_entry(Entry("2024-01-01", True, 1000, "1st"))
+# B.add_entry(Entry("2024-02-02", False, 500, "2nd"))

@@ -19,6 +19,7 @@ def load_data() -> Book:
 def save_data(book: Book) -> None:
     "Сохранение объекта кошелька в book.bin и сохранение записей через поток вывода в book.txt"
 
+    # book.sort_book()
     with open("book.bin", "wb") as file:
         file.write(pickle.dumps(book))
 

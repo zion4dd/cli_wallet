@@ -3,14 +3,15 @@ from datetime import datetime
 from models import Entry
 
 
-def in_entry_index(len_book) -> int | None:
-    "Ввод и валидация номера записи"
+def in_entry_index(len_book: int) -> int | None:
+    "Ввод и валидация номера записи. len_book - длина объекта кошелька."
 
     n = input(f"Введите номер записи от 0 до {len_book-1}: ")
     try:
         n = int(n)
         if n not in range(len_book):
             raise IndexError
+            
     except ValueError:
         print("Неверный формат!")
         return
@@ -49,7 +50,7 @@ def in_amount() -> int | None:
 
 
 def in_entry(startline="") -> Entry | None:
-    "Ввод и валидация записи"
+    "Ввод и валидация записи. startline - заголовок ввода."
 
     print(startline)
     date = in_date()
