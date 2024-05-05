@@ -1,55 +1,74 @@
-
 from datetime import datetime
 
+import pytest
 from pytest import MonkeyPatch
 
 from inputs import in_amount, in_cat, in_date, in_entry, in_entry_index
 from models import Entry
 
 
-def test_index(monkeypatch: MonkeyPatch):
-    monkeypatch.setattr("builtins.input", lambda x: "3")
-    assert in_entry_index(4) == 3
-    assert in_entry_index(2) is None
-
-    monkeypatch.setattr("builtins.input", lambda x: "str")
-    assert in_entry_index(4) is None
-
-
-def test_date(monkeypatch: MonkeyPatch):
-    monkeypatch.setattr("builtins.input", lambda x: "2024-05-05")
-    assert isinstance(in_date(), datetime)
-
-    monkeypatch.setattr("builtins.input", lambda x: "foo")
-    assert in_date() is None
+@pytest.mark.parametrize(
+    "len, inp, expect",
+    (
+        (4, "3", 3),
+        (2, "3", None),
+        (4, "str", None),
+    ),
+)
+def test_index(monkeypatch: MonkeyPatch, len, inp, expect):
+    monkeypatch.setattr("builtins.input", lambda x: inp)
+    assert in_entry_index(len) == expect
 
 
-def test_amount(monkeypatch: MonkeyPatch):
-    monkeypatch.setattr("builtins.input", lambda x: "100")
-    assert in_amount() == 100
+@pytest.mark.parametrize(
+    "inp, expect",
+    (
+        ("2024-05-05", datetime.strptime("2024-05-05", "%Y-%m-%d")),
+        ("2024-05-XX", None),
+        ("str", None),
+    ),
+)
+def test_date(monkeypatch: MonkeyPatch, inp, expect):
+    monkeypatch.setattr("builtins.input", lambda x: inp)
+    assert in_date() == expect
 
-    monkeypatch.setattr("builtins.input", lambda x: "-100")
-    assert in_amount() == -100
 
-    monkeypatch.setattr("builtins.input", lambda x: "0")
-    assert in_amount() == 0
+@pytest.mark.parametrize(
+    "inp, expect",
+    (
+        ("100", 100),
+        ("-100", -100),
+        ("0", 0),
+        ("str", None),
+    ),
+)
+def test_amount(monkeypatch: MonkeyPatch, inp, expect):
+    monkeypatch.setattr("builtins.input", lambda x: inp)
+    assert in_amount() == expect
 
-    monkeypatch.setattr("builtins.input", lambda x: "str")
-    assert in_amount() is None
 
-
-def test_entry(monkeypatch: MonkeyPatch):
-    fake = iter(["2024-05-05", "100", "str"])
+@pytest.mark.parametrize(
+    "ls, expect",
+    (
+        (["2024-05-05", "100", "str"], Entry("2024-05-05", True, 100, "str")),
+        (["2024-05-XX", "100", "str"], None),
+        (["2024-05-05", "XX", "str"], None),
+    ),
+)
+def test_entry(monkeypatch: MonkeyPatch, ls, expect):
+    fake = iter(ls)
     monkeypatch.setattr("builtins.input", lambda msg: next(fake))
-    assert isinstance(in_entry(), Entry)
+    assert in_entry() == expect
 
 
-def test_cat(monkeypatch: MonkeyPatch):
-    monkeypatch.setattr("builtins.input", lambda x: "+")
-    assert in_cat() is True
-
-    monkeypatch.setattr("builtins.input", lambda x: "-")
-    assert in_cat() is False
-
-    monkeypatch.setattr("builtins.input", lambda x: "str")
-    assert in_cat() is None
+@pytest.mark.parametrize(
+    "inp, expect",
+    (
+        ("+", True),
+        ("-", False),
+        ("str", None),
+    ),
+)
+def test_cat(monkeypatch: MonkeyPatch, inp, expect):
+    monkeypatch.setattr("builtins.input", lambda x: inp)
+    assert in_cat() == expect
