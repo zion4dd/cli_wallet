@@ -13,7 +13,7 @@ def test_add(book: Book, e1: Entry, e2: Entry):
 
 
 def test_getby(book: Book, e1: Entry, e2: Entry):
-    "теси методов поиска записей по категории, дате или сумме"
+    "тест методов поиска записей по категории, дате или сумме"
 
     ls = book.get_all()
     assert e1 in ls and e2 in ls
