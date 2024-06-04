@@ -46,6 +46,9 @@ jobs:
 
         - name: SSH commands
           run: |
-            ssh -o StrictHostKeyChecking=no root@45.146.165.203
+            ssh -o StrictHostKeyChecking=no root@45.146.165.203 << 'EOF'
+              echo "hello"
+            EOF
+
 
             
