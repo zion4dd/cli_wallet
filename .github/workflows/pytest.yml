@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -46,7 +45,7 @@ jobs:
 
         - name: SSH commands
           run: |
-            ssh -T root@45.146.165.203 << 'EOF'
+            ssh -o StrictHostKeyChecking=no root@45.146.165.203 << 'EOF'
               cd gpt
               git status
             EOF
