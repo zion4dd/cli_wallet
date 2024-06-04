@@ -46,9 +46,9 @@ jobs:
 
         - name: SSH commands
           run: |
-            ssh root@45.146.165.203 << 'EOF'
-              echo "ura!"
-              ls
-              whoami
-              pwd
-            EOF
+            ssh root@45.146.165.203
+            echo "ura!"
+            ls
+            whoami
+            pwd
+            
