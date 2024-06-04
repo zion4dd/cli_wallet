@@ -9,23 +9,46 @@ jobs:
 
     steps:
         - uses: actions/checkout@v4
+        
         - name: Set up Python
           uses: actions/setup-python@v5
           with:
             python-version: '3.11'
             architecture: 'x64'
             cache: 'pip'
+        
         - name: Display Python version
           run: python -c "import sys; print(sys.version)"
+        
         - name: Install dependencies
           run: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
+            pip install ruff
+        
         - name: Test with pytest
           run: pytest
+
         - name: Lint with Ruff
-          run: |
-            pip install ruff
-            ruff check --output-format=github .
+          run: ruff check --output-format=github .
           continue-on-error: true
         
+        # - uses: chartboost/ruff-action@v1
+        #   with:
+        #     version: 0.0.259 # def latest
+        #     args: check --select B # def check
+        #     src: "./src" # def .
+
+        - name: Set up SSH
+          uses: webfactory/ssh-agent@v0.5.3
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+        - name: SSH commands
+          run: |
+            ssh root@45.146.165.203 << 'EOF'
+              echo "ura!"
+              ls
+              whoami
+              pwd
+            EOF
