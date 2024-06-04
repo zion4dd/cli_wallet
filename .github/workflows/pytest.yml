@@ -46,9 +46,6 @@ jobs:
 
         - name: SSH commands
           run: |
-            ssh root@45.146.165.203
-            echo "ura!"
-            ls
-            whoami
-            pwd
+            ssh -o StrictHostKeyChecking=no root@45.146.165.203
+
             
